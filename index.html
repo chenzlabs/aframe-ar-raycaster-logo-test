@@ -3,41 +3,9 @@
 	<head>
 		<title></title>
 		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-		<script src="https://rawgit.com/feiss/aframe-environment-component/master/dist/aframe-environment-component.min.js"></script>
+		<meta http-equiv="refresh" content="0; ar.html">
 	</head>
 	<body>
-		<a-scene>
-			<a-assets>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo.mtl?1502470550479" id="samsung-internet-mtl"></a-asset-item>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo_small.obj?1502705824920" id="samsung-internet-obj"></a-asset-item>
-			</a-assets>
-<!-- 			<a-entity environment></a-entity> -->
-      <a-sky color="black"></a-sky>
-      <a-entity position="0 2 -3">
-        <a-entity obj-model="obj: #samsung-internet-obj;mtl: #samsung-internet-mtl" id="samsung" >
-          <a-animation from="0 -360 45" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="3000"></a-animation>
-          <a-animation from="0 0 0" to="1 1 1" easing="ease-out-back" begin="model-loaded" dur="2000" attribute="scale"></a-animation>
-          <a-animation from="0 -1 0" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="1000" attribute="position"></a-animation>
-
-          <a-animation from="0 -360 45" direction="reverse" to="0 0 0" easing="ease-in-back" begin="model-loaded" delay="4000" dur="1000"></a-animation>
-          <a-animation from="0 0 0" direction="reverse" to="1 1 1" easing="ease-in-back" begin="model-loaded" delay="4000" dur="1000" attribute="scale"></a-animation>
-          <a-animation from="0 -1 0" direction="reverse" to="0 0 0" easing="ease-in-back" begin="model-loaded" delay="4000" dur="1000" attribute="position"></a-animation>
-        </a-entity>
-      </a-entity>
-		</a-scene>
-    <script>
-      var el = document.querySelector('#samsung');
-      var purple = new THREE.MeshBasicMaterial();
-      purple.color = new THREE.Color('#706CF5');
-      var white = new THREE.MeshBasicMaterial();
-      white.color = new THREE.Color('#ffffff');
-      el.addEventListener('model-loaded', function () {
-        el.object3D.traverse(function (o) {
-          if (o.material) o.material = o.material.name === 'Purple' ? purple : white;
-        })
-      });
-    </script>
+    <a href="ar.html">Redirecting... click to go now</a>
 	</body>
 </html>
