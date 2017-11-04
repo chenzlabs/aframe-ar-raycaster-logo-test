@@ -1,1 +1,0 @@
-# aframe-ar-raycaster-logo-test
