@@ -52,11 +52,17 @@
         }
     });
 
+/*
       const content = `
       <a-entity obj-model="obj: #samsung-internet-obj;mtl: #samsung-internet-mtl" samsung-logo >
         <a-animation from="0 -360 45" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="3000"></a-animation>
         <a-animation from="0 0 0" to="1 1 1" easing="ease-out-back" begin="model-loaded" dur="2000" attribute="scale"></a-animation>
         <a-animation from="0 -1 0" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="1000" attribute="position"></a-animation>
+      </a-entity>`;
+*/
+      const content = `
+      <a-entity>
+        <a-sphere position="0 0.5 0" scale="0.2 1 0.2"></a-sphere>
       </a-entity>`;
       
       window.addEventListener('click', function () {
@@ -72,10 +78,14 @@
 	</head>
 	<body>
 		<a-scene ar raycaster-move="target:#mark">           
-			<a-assets>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo.mtl?1502470550479" id="samsung-internet-mtl"></a-asset-item>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo_small.obj?1502705824920" id="samsung-internet-obj"></a-asset-item>
-			</a-assets>      
+			<!--a-assets>
+				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo.mtl?v=1502470550479" 
+                      id="samsung-internet-mtl"
+                      response-type="arraybuffer"></a-asset-item>
+				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo_small.obj?v=1502705824920" 
+                      id="samsung-internet-obj"
+                      response-type="arraybuffer"></a-asset-item>
+			</a-assets-->      
       <!-- Use AR raycaster, and set raycaster to ignore all A-Frame objects like logos. -->
       <a-entity ar-raycaster raycaster="objects:none"></a-entity>
       <!-- Declare a ring to use as the raycaster intersection mark. -->
