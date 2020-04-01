@@ -4,9 +4,8 @@
 		<title></title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-    <script src="https://rawgit.com/google-ar/three.ar.js/f9603ee/dist/three.ar.js"></script>
-    <script src="https://rawgit.com/chenzlabs/aframe-ar/47aa7fa/dist/aframe-ar.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/chenzlabs/aframe-ar@d818e49/dist/aframe-ar.min.js"></script>
     <script>
       AFRAME.registerComponent('samsung-logo', {
         init: function () {
@@ -23,11 +22,47 @@
         }
       });
 
+
+    // AFRAME no longer sends intersection event every time intersection changes position;
+    // this component is modified from docs to move a different entity than the one hit.
+    AFRAME.registerComponent('raycaster-move', {
+        schema: {
+            target: {type: 'selector'}
+        },
+        init: function () {
+            // Use events to figure out what raycaster is listening so we don't have to
+            // hardcode the raycaster.
+            this.el.addEventListener('raycaster-intersected', evt => {
+                this.raycaster = evt.detail.el;
+            });
+            this.el.addEventListener('raycaster-intersected-cleared', evt => {
+                this.raycaster = null;
+            });
+        },
+        update: function (oldData) {
+            //
+        },
+        tick: function () {
+            if (!this.raycaster) { return; }  // Not intersecting.
+
+            let intersection = this.raycaster.components.raycaster.getIntersection(this.el);
+            if (!intersection) { return; }
+            //console.log(intersection.point);
+            this.data.target.setAttribute("position", intersection.point);
+        }
+    });
+
+/*
       const content = `
       <a-entity obj-model="obj: #samsung-internet-obj;mtl: #samsung-internet-mtl" samsung-logo >
         <a-animation from="0 -360 45" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="3000"></a-animation>
         <a-animation from="0 0 0" to="1 1 1" easing="ease-out-back" begin="model-loaded" dur="2000" attribute="scale"></a-animation>
         <a-animation from="0 -1 0" to="0 0 0" easing="ease-out-back" begin="model-loaded" dur="1000" attribute="position"></a-animation>
+      </a-entity>`;
+*/
+      const content = `
+      <a-entity>
+        <a-sphere position="0 0.5 0" scale="0.2 1 0.2"></a-sphere>
       </a-entity>`;
       
       window.addEventListener('click', function () {
@@ -42,11 +77,15 @@
     </script>
 	</head>
 	<body>
-		<a-scene ar>           
-			<a-assets>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo.mtl?1502470550479" id="samsung-internet-mtl"></a-asset-item>
-				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo_small.obj?1502705824920" id="samsung-internet-obj"></a-asset-item>
-			</a-assets>      
+		<a-scene ar="worldSensing:true" raycaster-move="target:#mark">           
+			<!--a-assets>
+				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo.mtl?v=1502470550479" 
+                      id="samsung-internet-mtl"
+                      response-type="arraybuffer"></a-asset-item>
+				<a-asset-item src="https://cdn.glitch.com/843c8e83-ac9e-499e-8aba-1332cd1fe4a6%2Fsilogo_small.obj?v=1502705824920" 
+                      id="samsung-internet-obj"
+                      response-type="arraybuffer"></a-asset-item>
+			</a-assets-->      
       <!-- Use AR raycaster, and set raycaster to ignore all A-Frame objects like logos. -->
       <a-entity ar-raycaster raycaster="objects:none"></a-entity>
       <!-- Declare a ring to use as the raycaster intersection mark. -->
@@ -59,8 +98,8 @@
       raycaster.addEventListener('raycaster-intersection', function (evt) {
         // Turn the mark green and move it to the intersection point.
         mark.setAttribute('color', 'green');
-        // FIXME: lerp position
-        mark.setAttribute('position', evt.detail.intersections[0].point);
+        // Note, movement will now be done via raycaster-move component.
+        //mark.setAttribute('position', evt.detail.intersections[0].point);
       });
       
       raycaster.addEventListener('raycaster-intersection-cleared', function (evt) {
